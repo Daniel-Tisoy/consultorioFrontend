@@ -54,6 +54,19 @@ function loadCita(idCita) {
     alert("Error al cargar la cita");
   };
 }
+function loadNewCita(id) {
+  let request = sendRequest("paciente/list/" + id, "GET", "");
+  let paciente = document.getElementById("documento");
+  
+
+  request.onload = function () {
+    let data = request.response;
+    paciente.value = data.documento;
+  };
+  request.onerror = function () {
+    alert("Error al cargar la cita");
+  };
+}
 
 function saveCita() {
   let cita = document.getElementById("idCita").value;
@@ -72,7 +85,7 @@ function saveCita() {
     },
   };
 
-  let request = sendRequest("cita/","POST", data);
+  let request = sendRequest("cita/", "POST", data);
 
   request.onload = () => {
     window.location = "./vista-cita.html";

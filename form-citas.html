@@ -85,6 +85,8 @@
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get("idCita") != null) {
                 loadCita(urlParams.get("idCita"))
+            } else if(urlParams.get("paciente")!=null){
+                loadNewCita(urlParams.get("paciente"))
             }
         }
     </script>

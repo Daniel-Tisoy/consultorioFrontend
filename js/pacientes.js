@@ -16,6 +16,7 @@ function loadData() {
           <td>
           <button type="button" class="btn btn-primary" onclick="window.location = './form-paciente.html?documento=${element.documento}&update=true'">Editar</button>
           <button type="button" class="btn btn-danger" onclick="deleteUser(${element.documento})">Eliminar</button>
+          <button type="button" class="btn btn-secondary" onclick="window.location = './form-citas.html?paciente=${element.documento}'">Crear cita</button>
         </td>
         </tr>
             `;
