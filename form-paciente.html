@@ -40,7 +40,7 @@
     </header>
     <main class="container pt-5">
         <h1>Nuevo Paciente</h1>
-        <form >
+        <form>
             <div class="mb-3">
                 <label for="documento" class="form-label">Documento</label>
                 <input type="number" class="form-control" id="documento">
@@ -70,13 +70,24 @@
                 <label for="eps" class="form-label">Eps</label>
                 <input type="text" class="form-control" id="eps">
             </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button onclick="saveUser()" type="submit" class="btn btn-primary">Enviar</button>
         </form>
 
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>
+
+    <script src="js/requests.js"></script>
+    <script src="js/pacientes.js"></script>
+    <script>
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get("documento")!=null){
+               loadUser(urlParams.get("documento")) 
+            }
+        }
+    </script>
 </body>
 
 </html>
