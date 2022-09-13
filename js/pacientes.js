@@ -35,7 +35,6 @@ function deleteUser(documento) {
     loadData();
   };
 }
-var userExist;
 function loadUser(idPaciente) {
   let request = sendRequest("paciente/list/" + idPaciente, "GET", "");
   let documento = document.getElementById("documento");
@@ -47,7 +46,6 @@ function loadUser(idPaciente) {
 
   request.onload = function () {
     let data = request.response;
-    userExist=true;
     documento.value = data.documento;
     nombre.value = data.nombre;
     apellido.value = data.apellido;
@@ -60,7 +58,7 @@ function loadUser(idPaciente) {
     alert("Error al recuperar los datos");
   };
 }
-
+//save user recibe "POST o PUT"
 function saveUser() {
   let documento = parseInt(document.getElementById("documento").value);
   let nombre = document.getElementById("nombre").value;
@@ -78,14 +76,14 @@ function saveUser() {
     eps: eps,
   };
 
-  //const urlParams = new URLSearchParams(window.location.search);
+  const urlParams = new URLSearchParams(window.location.search);
+  let userExist = ()=> urlParams.get("uptate")!=null;
   let request = sendRequest(
     "paciente/",
-    userExist ? "PUT" : "POST",
+    userExist() ? "PUT" : "POST",
     data
   );
   request.onload = function () {
-    userExist = false;
     window.location = "./vista-paciente.html";
   };
   request.onerror = function () {
