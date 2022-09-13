@@ -39,8 +39,12 @@
         </nav>
     </header>
     <main class="container pt-5">
-        <h1>Nuevo diagnostico</h1>
+        <h1>Diagnostico</h1>
         <form>
+            <div class="mb-3">
+                <label for="diagnostico" class="form-label">Id Diagnostico</label>
+                <input disabled type="number" class="form-control" id="diagnostico">
+            </div>
             <div class="mb-3">
                 <label for="cita" class="form-label">Indentificador de la cita</label>
                 <input type="number" class="form-control" id="cita">
@@ -51,7 +55,7 @@
             </div>
             <div class="mb-3">
                 <label for="idMedico" class="form-label">Documento del médico</label>
-                <input type="number" class="form-control" id="idMedico">
+                <input type="number" class="form-control" id="idMedico" value="0">
             </div>
             <div class="mb-3">
                 <label for="titulo" class="form-label">Título</label>
@@ -64,13 +68,25 @@
 
 
             <div id="warning" class="form-text">Nunca compartiremos tus datos con terceros.</div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="button" onclick="saveDiagnostico()" class="btn btn-primary">Enviar</button>
         </form>
 
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>
+        <script src="js/requests.js"></script>
+    <script src="js/diagnostico.js"></script>
+    <script>
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get("idCita") != null) {
+                loadNewDiagnostico(urlParams.get("idCita"))
+            } else if(urlParams.get("idDiagnostico") != null){
+                loadDiagnostico(urlParams.get("idDiagnostico"))
+            }
+        }
+    </script>
 </body>
 
 </html>
