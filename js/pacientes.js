@@ -14,7 +14,7 @@ function loadData() {
           <td>${element.fechaNacimiento}</td>
           <td>${element.eps}</td>
           <td>
-          <button type="button" class="btn btn-primary" onclick="window.location = './form-paciente.html?documento=${element.documento}'">Editar</button>
+          <button type="button" class="btn btn-primary" onclick="window.location = './form-paciente.html?documento=${element.documento}&update=true'">Editar</button>
           <button type="button" class="btn btn-danger" onclick="deleteUser(${element.documento})">Eliminar</button>
         </td>
         </tr>
@@ -35,7 +35,7 @@ function deleteUser(documento) {
     loadData();
   };
 }
-
+var userExist;
 function loadUser(idPaciente) {
   let request = sendRequest("paciente/list/" + idPaciente, "GET", "");
   let documento = document.getElementById("documento");
@@ -47,7 +47,7 @@ function loadUser(idPaciente) {
 
   request.onload = function () {
     let data = request.response;
-
+    userExist=true;
     documento.value = data.documento;
     nombre.value = data.nombre;
     apellido.value = data.apellido;
@@ -78,9 +78,14 @@ function saveUser() {
     eps: eps,
   };
 
-  var request = sendRequest("paciente/", false ? "PUT" : "POST", data);
-
+  //const urlParams = new URLSearchParams(window.location.search);
+  let request = sendRequest(
+    "paciente/",
+    userExist ? "PUT" : "POST",
+    data
+  );
   request.onload = function () {
+    userExist = false;
     window.location = "./vista-paciente.html";
   };
   request.onerror = function () {
