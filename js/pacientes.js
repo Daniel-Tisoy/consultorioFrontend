@@ -91,3 +91,35 @@ function saveUser() {
     alert("Error al guardar los cambios");
   };
 }
+
+function searchPaciente(){
+  let idPaciente = document.getElementById("idPaciente").value
+  let request = sendRequest("paciente/list/" + idPaciente, "GET", "");
+  let table = document.getElementById("tabla-pacientes");
+  table.innerHTML = "";
+  request.onload = function () {
+    let data = request.response;
+    table.innerHTML += `
+    <tr>
+      <th scope="row">${data.documento}</th>
+      <td>${data.nombre}</td>
+      <td>${data.apellido}</td>
+      <td>${data.sexo}</td>
+      <td>${data.fechaNacimiento}</td>
+      <td>${data.eps}</td>
+      <td>
+        <button type="button" class="btn btn-primary" onclick="window.location = './form-paciente.html?documento=${data.documento}&update=true'">Editar</button>
+        <button type="button" class="btn btn-danger" onclick="deleteUser(${data.documento})">Eliminar</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location = './form-citas.html?paciente=${data.documento}'">Crear cita</button>
+      </td>
+    </tr>
+    `;
+    };
+  request.onerror = function () {
+    table.innerHTML = `
+    <tr>
+      <td colspan="7"> Error al recuperar los datos.</td>
+    <tr>
+    `;
+  };
+}

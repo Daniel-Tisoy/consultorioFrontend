@@ -40,8 +40,14 @@
   </header>
   <main class="container">
     <h1>Pacientes</h1>
-    <button onclick="window.location='form-paciente.html'" class="btn btn-primary">Nuevo</button>
-    <table class="table ">
+    <section class="container-fluid justify-content-between d-flex">
+      <button onclick="window.location='form-paciente.html'" class="btn btn-primary">Nuevo</button>
+      <form class="d-flex" role="search">
+       <input class="form-control me-2" type="search" placeholder="ingrese documento" id="idPaciente"aria-label="Search">
+       <button class="btn btn-outline-success" onclick="searchPaciente()" type="button">Buscar</button>
+      </form>
+    </section>
+    <table class="table mt-3">
       <thead>
         <tr>
           <th scope="col">Doc</th>
