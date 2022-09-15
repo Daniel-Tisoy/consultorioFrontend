@@ -29,6 +29,7 @@ function loadData() {
         `;
   };
 }
+
 function deleteCita(idCita) {
   let request = sendRequest("cita/" + idCita, "DELETE", "");
   request.onload = () => loadData();
@@ -54,6 +55,7 @@ function loadCita(idCita) {
     alert("Error al cargar la cita");
   };
 }
+
 function loadNewCita(id) {
   let request = sendRequest("paciente/list/" + id, "GET", "");
   let paciente = document.getElementById("documento");
@@ -94,3 +96,37 @@ function saveCita() {
     alert("Error al guardar los datos");
   };
 }
+
+function searchCitaPaciente() {
+  let idPaciente= document.getElementById("idPaciente").value;
+  let request = sendRequest("cita/list/paciente/"+idPaciente, "GET", "");
+  let table = document.getElementById("tabla-citas");
+  table.innerHTML = "";
+  request.onload = function () {
+    let data = request.response;
+    data.forEach((element) => {
+      table.innerHTML += `
+         <tr>
+              <th scope="row">${element.idCita}</th>
+              <td>${element.paciente.documento}</td>
+              <td>${element.fecha}</td>
+              <td>${element.lugar}</td>
+              <td>${element.estado.nombre}</td>
+              <td>
+                  <button type="button" class="btn btn-primary" onclick="window.location = './form-citas.html?idCita=${element.idCita}'">Editar</button>
+                  <button type="button" class="btn btn-danger" onclick="deleteCita(${element.idCita})">Eliminar</button>
+                  <button type="button" class="btn btn-secondary" onclick="window.location = './form-diagnostico.html?idCita=${element.idCita}'">Nuevo Diagnostico</button>
+              </td>
+        </tr>
+        `;
+    });
+  };
+  request.onerror = function () {
+    table.innerHTML = `
+        <tr>
+            <td colspan="6"> Error al recuperar los datos.</td>
+        <tr>
+        `;
+  };
+}
+
