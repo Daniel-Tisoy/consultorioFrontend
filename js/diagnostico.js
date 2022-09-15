@@ -41,6 +41,7 @@ function loadData() {
           `;
   };
 }
+
 function deleteDiagnostico(idDiagnostico) {
   let request = sendRequest("diagnostico/" + idDiagnostico, "DELETE", "");
   request.onload = () => loadData();
@@ -60,6 +61,7 @@ function loadNewDiagnostico(id) {
     alert("Error al cargar la cita");
   };
 }
+
 function loadDiagnostico(id) {
   let request = sendRequest("diagnostico/list/" + id, "GET", "");
   let idDiagnostico = document.getElementById("diagnostico");
@@ -115,5 +117,54 @@ function saveDiagnostico() {
   };
   request.onerror = () => {
     alert("Error al guardar los datos");
+  };
+}
+
+function searchDiagnosticoPaciente() {
+  let idPaciente = document.getElementById("idPaciente").value;
+  let request = sendRequest(
+    "diagnostico/list/paciente/" + idPaciente,
+    "GET",
+    ""
+  );
+  let table = document.getElementById("tabla-diagnosticos");
+  table.innerHTML = "";
+  request.onload = function () {
+    let data = request.response;
+    data.forEach((element) => {
+      table.innerHTML += `
+           <tr>
+                <th scope="row">${element.idDiagnostico}</th>
+                <td>${element.cita.idCita}</td>
+                <td>${
+                  element.paciente.nombre + " " + element.paciente.apellido
+                }</td>
+                <td>${element.paciente.documento}</td>
+                <td>${
+                  element.medico.nombre + " " + element.medico.apellido
+                }</td>
+                <td>${element.titulo}</td>
+                <td>${element.observacion}</td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="window.location = './form-diagnostico.html?idDiagnostico=${
+                      element.idDiagnostico
+                    }'">Editar</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteDiagnostico(${
+                      element.idDiagnostico
+                    })">Eliminar</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.location = './form-citas.html?idCita=${
+                      element.cita.idCita
+                    }'">Cita</button>
+                </td>
+          </tr>
+          `;
+    });
+  };
+  request.onerror = function () {
+    table.innerHTML = `
+          <tr>
+              <td colspan="6"> Error al recuperar los datos.</td>
+          <tr>
+          `;
   };
 }
